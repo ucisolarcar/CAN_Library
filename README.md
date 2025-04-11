@@ -3,3 +3,4 @@
 - [ ] make build, clean, test scripts
 - [ ] create files for new classes
 - [ ] complete parser functions for a couple sensors/systems
+- [ ] figure out python integration
