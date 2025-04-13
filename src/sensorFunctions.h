@@ -54,6 +54,7 @@ class SensorFunctions {
 
     accelDataArr parseAccel(can_frame msg, bool debug);
     float parseCurrent(can_frame msg, bool debug);
+    floatPair parseGPS(can_frame msg, bool debug);
 };
 
 #endif
