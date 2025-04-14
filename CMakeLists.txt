@@ -26,9 +26,11 @@ target_include_directories(CAN_Library
 )
 
 file(GLOB_RECURSE TEST_SOURCES "tests/*.cpp")
+file(GLOB_RECURSE TEST_HEADERS "tests/*.hpp")
 
 add_executable(CAN_Library_Tests
     ${TEST_SOURCES}
+    ${TEST_HEADERS}
 )
 
 target_link_libraries(CAN_Library_Tests
