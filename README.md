@@ -4,17 +4,20 @@
 - make
 
 ### Build
+- run this script to compile the library and the test files
+- this will generate the executable
 ``` bash
     ./build.sh
 ```
 
 ### Clean
+- deletes all build files
 ``` bash
     ./clean.sh
 ```
 
 ### Testing 
-- write your test in the test_main.cpp file
+- write tests in the test_main.cpp file
 - build the program using the build script
 ``` bash
     ./test.sh
