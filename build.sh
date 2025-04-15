@@ -1,5 +1,8 @@
 cmake -S . -B build
 cd build
 make
-ln -s compile_commands.json ../
 cd ..
+if [ !  -L "compile_commands.json" ]; then
+    ln -s build/compile_commands.json .
+    echo "Linking compile commands to project root"
+fi
