@@ -37,4 +37,4 @@ target_link_libraries(CAN_Library_Tests
     CAN_Library
 )
 
-target_compile_options(CAN_Library_Tests PRIVATE -Wall -Wextra -pedantic)
+target_compile_options(CAN_Library_Tests PRIVATE -g -Wall -Wextra -pedantic)
