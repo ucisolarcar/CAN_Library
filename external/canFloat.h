@@ -7,13 +7,13 @@
 #include <stdint.h>
 
 // Union to faciliatate the breakdown of a float into bytes:
-union floatUnsigned {
+union floatUnion {
   float myFloat;
   uint32_t myUnsigned;
   uint8_t myBytes[4];
 };
 
-typedef union floatUnsigned floatUnsigned;
+typedef union floatUnion floatUnion;
 
 //structs:
 typedef struct CAN 
@@ -51,22 +51,11 @@ typedef struct byteArray
 class CanFloats {
 
     private:
-        floatUnsigned myNum1;
-        floatUnsigned myNum2;
+        floatUnion myNum1;
+        floatUnion myNum2;
         CAN myCAN;
 
-        float ConvertB32ToFloat(uint32_t b32);
-        uint32_t ConvertFloatToB32(float f);
-        uint8_t arrToByte(bitArray bits, int start);
-        bool bitRead(uint8_t num, int bit); // implementation of arduino function
-        byteArray copyBytes(uint8_t num);
-        bitArray copyBits(uint32_t num);
-
-        void bitsToByte(byteArray byteArr, int *count, uint32_t *num);
-        uint32_t makeNum1(CAN canInput);
-        uint32_t makeNum2(CAN canInput);
-
-        CAN toCan(floatUnsigned num1, floatUnsigned num2);
+        CAN toCan(floatUnion num1, floatUnion num2);
         floatPair toFloatPair(CAN canInput);
 
 

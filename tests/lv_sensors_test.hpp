@@ -25,25 +25,15 @@ public:
 
 
 void LV_TEST::currentTest() {
-    cout << "Test\n\n";
+    cout << "Running currentTest()\n\n";
 
     // Creating a float that will be transformed into a can_frame:
     float curr1 = 0.125; // 0.125A
-
     cout << "Current: " << curr1 << "\n\n";
-    CanFloats converter(curr1, 0);
-    // issue with .getCAN()
-    CAN convertedCAN = converter.getCAN();
 
-    CAN testCAN;
-    testCAN.byte1 = 0x3e;
-    testCAN.byte2 = 0x0;
-    testCAN.byte3 = 0;
-    testCAN.byte4 = 0;
-    testCAN.byte5 = 0;
-    testCAN.byte6 = 0;
-    testCAN.byte7 = 0;
-    testCAN.byte8 = 0;
+    // Creating the CanFloats object for conversion
+    CanFloats converter(curr1, 0);
+    CAN convertedCAN = converter.getCAN();
 
     cout << "CAN: \n";
     cout << "Byte 0: " << (int)convertedCAN.byte1 << " ";
@@ -55,14 +45,13 @@ void LV_TEST::currentTest() {
     cout << "Byte 6: " << (int)convertedCAN.byte7 << " ";
     cout << "Byte 7: " << (int)convertedCAN.byte8 << "\n";
 
-    //called currNull since first byte has data but second byte should be 0
-    floatPair currNull = converter.canToFloats(convertedCAN);
-    cout << currNull.num1 << "\n";
-    float current = currNull.num1;
+    // get the floats back from the 
+    floatPair floats = converter.canToFloats(convertedCAN);
+    cout << "Float 1: " << floats.num1 << "\n";
+    cout << "Float 2: " << floats.num2 << "\n";
 
+    float current = floats.num1;
     cout << "Current After Conversion: " << current << "\n";
-
-
 }
 
 #endif
