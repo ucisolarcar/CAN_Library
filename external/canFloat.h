@@ -18,15 +18,8 @@ typedef union floatUnion floatUnion;
 //structs:
 typedef struct CAN 
 {
-  //7 bytes for the data
-  uint8_t byte1 = 0;
-  uint8_t byte2 = 0;
-  uint8_t byte3 = 0;
-  uint8_t byte4 = 0;
-  uint8_t byte5 = 0;
-  uint8_t byte6 = 0;
-  uint8_t byte7 = 0;
-  uint8_t byte8 = 0;
+  //8 bytes for the data
+  uint8_t canBytes[8];
 } CAN;
 
 typedef struct floatPair 
@@ -34,17 +27,6 @@ typedef struct floatPair
   float num1 = 0;
   float num2 = 0;
 } floatPair;
-
-typedef struct bitArray
-{
-  bool arr[32];
-} bitArray;
-
-typedef struct byteArray
-{
-  bool arr[8];
-} byteArray;
-
 
 
 
@@ -62,6 +44,9 @@ class CanFloats {
     public:
         // To make a CanFloats:
         CanFloats(float num1, float num2);
+
+        // To create a CanFloats with a CAN message:
+        CanFloats(CAN canMsg);
 
         // To make an empty CanFloats:
         CanFloats();

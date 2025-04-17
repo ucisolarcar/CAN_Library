@@ -87,15 +87,10 @@ float SensorFunctions::parseCurrent(can_frame msg, bool debug)
 {
     //convert data to a CAN struct:
     struct CAN can;
-    can.byte1 = msg.data[0];
-    can.byte2 = msg.data[1];
-    can.byte3 = msg.data[2];
-    can.byte4 = msg.data[3];
-    can.byte5 = msg.data[4];
-    can.byte6 = msg.data[5];
-    can.byte7 = msg.data[6];
-    can.byte8 = msg.data[7];
-
+    for (int i = 0; i < 8; i++)
+    {
+        can.canBytes[i] = msg.data[i];
+    }
     CanFloats canfloats = CanFloats();
 
     //called currNull since first byte has data but second byte should be 0
@@ -119,14 +114,10 @@ floatPair SensorFunctions::parseGPS(can_frame msg, bool debug)
 {
     //convert data to a CAN struct:
     struct CAN can;
-    can.byte1 = msg.data[0];
-    can.byte2 = msg.data[1];
-    can.byte3 = msg.data[2];
-    can.byte4 = msg.data[3];
-    can.byte5 = msg.data[4];
-    can.byte6 = msg.data[5];
-    can.byte7 = msg.data[6];
-    can.byte8 = msg.data[7];
+    for (int i = 0; i < 8; i++)
+    {
+        can.canBytes[i] = msg.data[i];
+    }
 
     CanFloats canfloats = CanFloats();
     floatPair latLong = canfloats.canToFloats(can);
