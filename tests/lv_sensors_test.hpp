@@ -10,8 +10,8 @@ class LV_TEST {
 private:
 
 public:
-    LV_TEST() = default;
     void currentTest();
+
 };
 
 /* Process would be get can_frame from the CANBUS network
@@ -29,8 +29,10 @@ void LV_TEST::currentTest() {
 
     // Creating a float that will be transformed into a can_frame:
     float curr1 = 0.125; // 0.125A
+
     cout << "Current: " << curr1 << "\n\n";
-    CanFloats converter = CanFloats(curr1, 0);
+    CanFloats converter(curr1, 0);
+    // issue with .getCAN()
     CAN convertedCAN = converter.getCAN();
 
     CAN testCAN;
@@ -59,6 +61,8 @@ void LV_TEST::currentTest() {
     float current = currNull.num1;
 
     cout << "Current After Conversion: " << current << "\n";
+
+
 }
 
 #endif

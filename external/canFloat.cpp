@@ -1,15 +1,16 @@
 #include "canFloat.h"
+#include <iostream>
 
 CanFloats::CanFloats(float num1, float num2)
 {
-  this->myNum1 = num1;
-  this->myNum2 = num2;
+  this->myNum1.myFloat = num1;
+  this->myNum2.myFloat = num2;
 }
 
 CanFloats::CanFloats()
 {
-  this->myNum1 = 0;
-  this->myNum2 = 0;
+  this->myNum1.myFloat = 0;
+  this->myNum2.myFloat = 0;
 }
 
 floatPair CanFloats::getFloats()
@@ -26,9 +27,7 @@ floatPair CanFloats::canToFloats(CAN msg)
 
 CAN CanFloats::getCAN()
 {
-  uint32_t num1Int = ConvertFloatToB32(myNum1);
-  uint32_t num2Int = ConvertFloatToB32(myNum2);
-  CAN output = toCan(num1Int, num2Int);
+  CAN output = toCan(myNum1, myNum2);
   return output;
 }
 
@@ -95,6 +94,7 @@ uint32_t CanFloats::ConvertFloatToB32(float f) {
   //get biased exponent
   exponent = shift + 0x7f; //shift + bias
   //combine and return
+  std::cout << "ConvertFloatToB32 output: " << ((sign<<31) | (exponent<<23) | significand);
   return (sign<<31) | (exponent<<23) | significand;
 }
 
@@ -204,22 +204,18 @@ floatPair CanFloats::toFloatPair(CAN canInput)
 }
 
 //put into form that can be sent via CANBUS:
-CAN CanFloats::toCan(uint32_t num1, uint32_t num2)
+CAN CanFloats::toCan(floatUnsigned num1, floatUnsigned num2)
 {
   //initialize the struct for the CAN, and copy the bits over into an array
   CAN canOut;
-  bitArray num1Arr = copyBits(num1);
-  bitArray num2Arr = copyBits(num2);
+  canOut.byte1 = num1.myBytes[3];
+  canOut.byte2 = num1.myBytes[2];
+  canOut.byte3 = num1.myBytes[1];
+  canOut.byte4 = num1.myBytes[0];
+  canOut.byte5 = num1.myBytes[3];
+  canOut.byte6 = num1.myBytes[2];
+  canOut.byte7 = num1.myBytes[1];
+  canOut.byte8 = num1.myBytes[0];
 
-  //Set each uint8_t of the CAN struct to what they should be
-  //Set each uint8_t of the CAN struct to what they should be
-  canOut.byte1 = arrToByte(num1Arr, 31);
-  canOut.byte2 = arrToByte(num1Arr, 23);
-  canOut.byte3 = arrToByte(num1Arr, 15);
-  canOut.byte4 = arrToByte(num1Arr, 7);
-  canOut.byte5 = arrToByte(num2Arr, 31);
-  canOut.byte6 = arrToByte(num2Arr, 23);
-  canOut.byte7 = arrToByte(num2Arr, 15);
-  canOut.byte8 = arrToByte(num2Arr, 7);
   return canOut;
 }

@@ -6,6 +6,15 @@
 
 #include <stdint.h>
 
+// Union to faciliatate the breakdown of a float into bytes:
+union floatUnsigned {
+  float myFloat;
+  uint32_t myUnsigned;
+  uint8_t myBytes[4];
+};
+
+typedef union floatUnsigned floatUnsigned;
+
 //structs:
 typedef struct CAN 
 {
@@ -38,11 +47,12 @@ typedef struct byteArray
 
 
 
+
 class CanFloats {
 
     private:
-        float myNum1;
-        float myNum2;
+        floatUnsigned myNum1;
+        floatUnsigned myNum2;
         CAN myCAN;
 
         float ConvertB32ToFloat(uint32_t b32);
@@ -56,7 +66,7 @@ class CanFloats {
         uint32_t makeNum1(CAN canInput);
         uint32_t makeNum2(CAN canInput);
 
-        CAN toCan(uint32_t num1, uint32_t num2);
+        CAN toCan(floatUnsigned num1, floatUnsigned num2);
         floatPair toFloatPair(CAN canInput);
 
 
