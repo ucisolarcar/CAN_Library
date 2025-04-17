@@ -1,5 +1,7 @@
 #include "sensorFunctions.h"
 
+using namespace std;
+
 //Create a SensorFunctions:
 SensorFunctions::SensorFunctions()
 {
@@ -61,19 +63,17 @@ float SensorFunctions::canToOneFloat(uint8_t data[8], int startI, int endI)
 //code to translate accelerometer CAN data into x,y,z values
 //Needs to return 3 floats, with only 1 decimal point precision
 //returns a accelDataArr, 3 indexes, 1 for each float
-accelDataArr SensorFunctions::parseAccel(can_frame msg, bool debug)
+accelDataArr SensorFunctions::parseAccel(CAN data, bool debug)
 {
-    float x = canToOneFloat(msg.data, 1, 2);
-    float y = canToOneFloat(msg.data, 3, 4);
-    float z = canToOneFloat(msg.data, 5, 6);
+    float x = canToOneFloat(data.canBytes, 1, 2);
+    float y = canToOneFloat(data.canBytes, 3, 4);
+    float z = canToOneFloat(data.canBytes, 5, 6);
 
     accelDataArr output = {x, y, z};
 
     if(debug)
     {
-        // Printing the CAN ID in hexadecimal format
-        std::cout << "Accel Sensor ID: " << std::hex << msg.can_id << std::endl;
-
+        cout << "Accelerometer Data:\n";
         // Printing out X, Y, Z axis values with 1 decimal place
         std::cout << "\tX: " << std::fixed << std::setprecision(1) << x << std::endl;
         std::cout << "\tY: " << std::fixed << std::setprecision(1) << y << std::endl;
@@ -83,31 +83,26 @@ accelDataArr SensorFunctions::parseAccel(can_frame msg, bool debug)
 }
 
 //converts a can message to a float that represents the current sensor data
-float SensorFunctions::parseCurrent(can_frame msg, bool debug)
-{
-    //convert data to a CAN struct:
-    struct CAN can;
-    can.byte1 = msg.data[0];
-    can.byte2 = msg.data[1];
-    can.byte3 = msg.data[2];
-    can.byte4 = msg.data[3];
-    can.byte5 = msg.data[4];
-    can.byte6 = msg.data[5];
-    can.byte7 = msg.data[6];
-    can.byte8 = msg.data[7];
-
-    CanFloats canfloats = CanFloats();
-
-    //called currNull since first byte has data but second byte should be 0
-    floatPair currNull = canfloats.canToFloats(can);
-    float current = currNull.num1;
+float SensorFunctions::parseCurrent(CAN data, bool debug)
+{    
+    // Creating the CanFloats object for conversion
+    CanFloats converter(data);
     if(debug)
     {
-        // Printing the Current Sensor ID in hexadecimal format
-        std::cout << "Current Sensor ID: " << std::hex << msg.can_id << std::dec << std::endl;
+        cout << "CAN: \n";
+        for (int i = 0; i <= 7; i++)
+            cout << "Byte [" << i << "]: " << hex << (int) data.canBytes[i] << "\n";
+    }
+    
+    // get the floats back from the CanFloats object
+    floatPair floats = converter.getFloats();
 
-        // Printing out the current value with 6 decimal places
-        std::cout << "\tCurrent: " << std::fixed << std::setprecision(6) << current << " A" << std::endl;
+    float current = floats.num1;
+    if(debug)
+    {
+        cout << "Parsing the Current based off of CAN struct...\n";
+        cout << "----------------------------------------------\n";
+        cout << "Current: " << current << "\n";
     }
     return current;
 }
@@ -115,21 +110,10 @@ float SensorFunctions::parseCurrent(can_frame msg, bool debug)
 //converts a can message to a floatPair containing the lat long for GPS.
 //Will probably have to rename it since it only handles latlong, other data might
 //want to be pulled such as the speed, fix, and other GPS related data
-floatPair SensorFunctions::parseGPS(can_frame msg, bool debug)
+floatPair SensorFunctions::parseGPS(CAN data, bool debug)
 {
-    //convert data to a CAN struct:
-    struct CAN can;
-    can.byte1 = msg.data[0];
-    can.byte2 = msg.data[1];
-    can.byte3 = msg.data[2];
-    can.byte4 = msg.data[3];
-    can.byte5 = msg.data[4];
-    can.byte6 = msg.data[5];
-    can.byte7 = msg.data[6];
-    can.byte8 = msg.data[7];
-
-    CanFloats canfloats = CanFloats();
-    floatPair latLong = canfloats.canToFloats(can);
+    CanFloats canfloats = CanFloats(data);
+    floatPair latLong = canfloats.getFloats();
 
     if(debug)
     {

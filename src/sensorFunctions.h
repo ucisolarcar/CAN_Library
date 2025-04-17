@@ -46,15 +46,15 @@ class SensorFunctions {
     //Global Private Functions
     decData decimal_breakdown(float value, int decimalpoint);
 
-    float canToOneFloat(__u8 data[8], int startI, int endI);
+    float canToOneFloat(uint8_t data[8], int startI, int endI);
   
   public:
     //constructor:
     SensorFunctions(); 
 
-    accelDataArr parseAccel(can_frame msg, bool debug);
-    float parseCurrent(can_frame msg, bool debug);
-    floatPair parseGPS(can_frame msg, bool debug);
+    accelDataArr parseAccel(CAN data, bool debug);
+    float parseCurrent(CAN data, bool debug);
+    floatPair parseGPS(CAN data, bool debug);
 };
 
 #endif
