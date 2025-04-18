@@ -18,8 +18,8 @@ typedef struct powerMeasurements {
 } powerMeasurements;
 
 typedef struct mpptStatus {
-    uint8_t mode;
-    uint8_t fault;
+    int mode;
+    int fault;
     bool enabled;
     int ambientTemp;
     int heatsinkTemp;

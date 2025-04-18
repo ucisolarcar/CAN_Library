@@ -7,8 +7,8 @@
 #include "lv_sensors_test.hpp"
 #include "mppt_test.hpp"
 
+// #define TEST_LV
 #define TEST_MPPT
-#define TEST_LV
 
 int main() {
 #ifdef TEST_LV
@@ -19,6 +19,7 @@ int main() {
 #ifdef TEST_MPPT
     MPPT_Test mppt_test;
     mppt_test.powerTest();
+    mppt_test.statusTest();
 #endif
     
     return 0;

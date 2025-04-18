@@ -21,8 +21,8 @@ powerMeasurements MPPT::parsePowerMeasurements(uint8_t data[], bool debug) {
 mpptStatus MPPT::parseMPPTStatus(uint8_t data[], bool debug) {
     mpptStatus status;
 
-    status.mode = data[0];
-    status.fault = data[1];
+    status.mode = (int)data[0];
+    status.fault = (int)data[1];
     status.enabled = (bool)data[2];
 
     int8_t a_tempConverted = (int8_t)data[3];

@@ -32,7 +32,7 @@ void MPPT_Test::powerTest() {
     powerMeasurements pm;
     MPPT parser;
     can_frame powerFrame;
-    powerFrame.can_id = 0x201;
+    powerFrame.can_id = 0x200;
     powerFrame.can_dlc = 8;
 
     int16_t inputVoltage = 22 / voltageScaleFactor;
@@ -53,16 +53,51 @@ void MPPT_Test::powerTest() {
         cout << "Data [" << i << "]: " << hex << (int) powerFrame.data[i] << "\n";
 
     pm = parser.parsePowerMeasurements(powerFrame.data, 1);
-    cout << "Input voltage: " << pm.inVoltage << endl;
-    cout << "Input current: " << pm.inCurrent <<endl;
-    cout << "Output voltage: " << pm.outVoltage << endl;
-    cout << "Output current: " << pm.outCurrent << endl;
+    cout << "Input voltage: " << pm.inVoltage << " V" <<  endl;
+    cout << "Input current: " << pm.inCurrent << " A" << endl;
+    cout << "Output voltage: " << pm.outVoltage << " V" <<  endl;
+    cout << "Output current: " << pm.outCurrent << " A" << endl;
 }
 
 #endif
     
 void MPPT_Test::statusTest() {
-    std::cout << "Running powerTest() for MPPT Testing" << std::endl; 
+    std::cout << "1. Running statusTest() for MPPT Testing" << std::endl; 
     cout << "----------------------------------------------\n";
+    
+    can_frame statusFrame;
+    statusFrame.can_id = 0x201;
+    statusFrame.can_dlc = 5;
+    mpptStatus status;
+    MPPT parser;
 
+    statusFrame.data[0] = 6;
+    statusFrame.data[1] = 5;
+    statusFrame.data[2] = 1;
+    statusFrame.data[3] = 55;
+    statusFrame.data[4] = 127;
+    
+    status = parser.parseMPPTStatus(statusFrame.data, 1);
+
+    cout << "Mode: " << status.mode << endl;
+    cout << "Fault: " << status.fault << endl;
+    cout << "Enabled: " << status.enabled << endl;
+    cout << "Ambient temp: " << status.ambientTemp << " C" << endl;
+    cout << "Heatsink temp: " << status.heatsinkTemp << " C" << endl;
+
+    std::cout << "2. Running statusTest() for MPPT Testing" << std::endl; 
+    cout << "----------------------------------------------\n";
+    statusFrame.data[0] = 6;
+    statusFrame.data[1] = 5;
+    statusFrame.data[2] = 1;
+    statusFrame.data[3] = -55;
+    statusFrame.data[4] = -127;
+    
+    status = parser.parseMPPTStatus(statusFrame.data, 1);
+
+    cout << "Mode: " << status.mode << endl;
+    cout << "Fault: " << status.fault << endl;
+    cout << "Enabled: " << status.enabled << endl;
+    cout << "Ambient temp: " << status.ambientTemp << " C" << endl;
+    cout << "Heatsink temp: " << status.heatsinkTemp << " C" << endl;
 }
