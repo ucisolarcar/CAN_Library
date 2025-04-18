@@ -28,6 +28,7 @@ typedef struct mpptStatus {
 // Create an instance of this class for each array
 class MPPT {
     private: 
+        int16_t combineBytes(uint8_t high, uint8_t low);
 
     public:
         // parsing
