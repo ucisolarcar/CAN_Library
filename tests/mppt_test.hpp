@@ -90,8 +90,8 @@ void MPPT_Test::statusTest() {
     statusFrame.data[0] = 6;
     statusFrame.data[1] = 5;
     statusFrame.data[2] = 1;
-    statusFrame.data[3] = -55;
-    statusFrame.data[4] = -127;
+    statusFrame.data[3] = 254;
+    statusFrame.data[4] = 255;
     
     status = parser.parseMPPTStatus(statusFrame.data, 1);
 

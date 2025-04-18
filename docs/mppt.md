@@ -48,4 +48,3 @@
 - we will not worry about this right now
 - note that when testing with current = 8A, the result gives current = 7.9995
 - we may need to pay more attention to precision
-
