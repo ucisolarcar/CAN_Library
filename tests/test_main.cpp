@@ -8,8 +8,11 @@
 #include "mppt_test.hpp"
 
 int main() {
-    LV_TEST lv_test;
-    lv_test.currentTest();
+    // LV_TEST lv_test;
+    // lv_test.currentTest();
+    
+    MPPT_Test mppt_test;
+    mppt_test.test();
     
     return 0;
 }
