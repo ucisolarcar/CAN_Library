@@ -8,10 +8,10 @@ int16_t MPPT::combineBytes(uint8_t high, uint8_t low) {
 powerMeasurements MPPT::parsePowerMeasurements(uint8_t data[], bool debug) {
     powerMeasurements pm;
 
-    pm.inVoltage = combineBytes(data[0], data[1]) / voltageScaleFactor; 
-    pm.inCurrent = combineBytes(data[2], data[3]) / currentScaleFactor;
-    pm.outVoltage = combineBytes(data[4], data[5]) / voltageScaleFactor;
-    pm.outCurrent = combineBytes(data[6], data[7]) / currentScaleFactor;
+    pm.inVoltage = (float)combineBytes(data[0], data[1]) * voltageScaleFactor; 
+    pm.inCurrent = (float)combineBytes(data[2], data[3]) * currentScaleFactor;
+    pm.outVoltage = (float)combineBytes(data[4], data[5]) * voltageScaleFactor;
+    pm.outCurrent = (float)combineBytes(data[6], data[7]) * currentScaleFactor;
 
     // debug
 

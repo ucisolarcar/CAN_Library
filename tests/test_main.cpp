@@ -7,12 +7,19 @@
 #include "lv_sensors_test.hpp"
 #include "mppt_test.hpp"
 
+#define TEST_MPPT
+#define TEST_LV
+
 int main() {
-    // LV_TEST lv_test;
-    // lv_test.currentTest();
+#ifdef TEST_LV
+    LV_TEST lv_test;
+    lv_test.currentTest();
+#endif
     
+#ifdef TEST_MPPT
     MPPT_Test mppt_test;
-    mppt_test.test();
+    mppt_test.powerTest();
+#endif
     
     return 0;
 }
