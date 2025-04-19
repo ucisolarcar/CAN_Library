@@ -112,14 +112,14 @@ void LV_TEST::testGPS()
 {
     cout << "Running testGPS()\n";
     cout << "----------------------------------------------\n";
-    cout << "Expected value: Lat 33 38.6433, Long: 117 50.41\n";
+    cout << "Expected value: Lat 40 42.5998, Long: 74 00.4853 (maybe errors with rounding)\n";
 
     // Generating a can_frame with a temperature of 72.01F
     // This is representative of a can_frame we should receive for current data
     can_frame currCanFrame;
-    currCanFrame.can_id = 0x707;    // CAN ID of Thermistor 1
-    currCanFrame.can_dlc = 4;       // We should only send 4 bytes of data
-    uint8_t testData[8] = {0x42, 0x90, 0x05, 0x1f, 0, 0, 0, 0};
+    currCanFrame.can_id = 0x709;    // CAN ID of Thermistor 1
+    currCanFrame.can_dlc = 8;       // We should only send 4 bytes of data
+    uint8_t testData[8] = {0x45, 0x7c, 0xa9, 0x99, 0x45, 0xe7, 0x43, 0xe2};
     copy(begin(testData), end(testData), begin(currCanFrame.data));
 
     // currCanFrame printout:
@@ -130,12 +130,10 @@ void LV_TEST::testGPS()
         cout << "Data [" << i << "]: " << hex << (int) currCanFrame.data[i] << "\n";
 
     // Now extracting the CAN from the can_frame (this is what the CANBUS to CAN struct lib will be doing):
-    CAN canData;
-    // copy the array of bytes from currCanFrame to the array of bytes in canData
-    copy(begin(currCanFrame.data), end(currCanFrame.data), begin(canData.canBytes));
-    // Finally parse the current
+
+    // Finally parse the GPS Coordinates
     SensorFunctions parser;
-    parser.parseTemp((uint8_t*) currCanFrame.data, true);
+    parser.parseGPS((uint8_t*) currCanFrame.data, true);
     cout << "\n";
 }
 

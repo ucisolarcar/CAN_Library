@@ -18,6 +18,7 @@ int main() {
     lv_test.currentTest();
     lv_test.voltageTest();
     lv_test.tempTest();
+    lv_test.testGPS();
 
     return 0;
 }

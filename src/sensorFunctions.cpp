@@ -169,7 +169,7 @@ floatPair SensorFunctions::parseGPS(uint8_t data[8], bool debug)
     {
         // Printing the latitude and longitude with 4 decimal places
         std::cout << "Lat: " << std::fixed << std::setprecision(4) << latLong.num1;
-        std::cout << " Long: " << std::fixed << std::setprecision(4) << latLong.num2 << std::endl;
+        std::cout << " Long: " << std::fixed << std::setprecision(4) << latLong.num2 << " (DDMM.MMMM) " << std::endl;
     }
 
     return latLong;
