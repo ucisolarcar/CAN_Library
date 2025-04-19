@@ -7,18 +7,25 @@
 #include "lv_sensors_test.hpp"
 #include "mppt_test.hpp"
 
-int main() {
-    // LV_TEST lv_test;
-    // lv_test.currentTest();
-    
-    MPPT_Test mppt_test;
+// #define TEST_LV
+#define TEST_MPPT
 
-    mppt_test.test();
+int main() {
+#ifdef TEST_LV
+    LV_TEST lv_test;
+    lv_test.currentTest();
+#endif
+    
+#ifdef TEST_MPPT
+    MPPT_Test mppt_test;
+    mppt_test.powerTest();
+    mppt_test.statusTest();
     LV_TEST lv_test;
     lv_test.currentTest();
     lv_test.voltageTest();
     lv_test.tempTest();
     lv_test.testGPS();
-
+#endif
+    
     return 0;
 }

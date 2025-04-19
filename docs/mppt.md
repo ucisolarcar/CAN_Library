@@ -35,7 +35,16 @@
     - 6: Input Under Current
     - 7: Phase Over Current
     - 8: Fault
+- byte 2: Enabled
+    - 0: disabled
+    - 1: enabled
+- byte 3: ambient temp (C)
+    - temp +/- 128
+- byte 4: heatsink temp (C)
+    - heatsink temp +/- 128
 
 ## Received Messages - ID: 5-9
 - these are for messages that would get transmitted TO the MPPT
 - we will not worry about this right now
+- note that when testing with current = 8A, the result gives current = 7.9995
+- we may need to pay more attention to precision
