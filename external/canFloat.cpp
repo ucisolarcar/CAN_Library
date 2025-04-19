@@ -1,5 +1,6 @@
 #include "canFloat.h"
 #include <iostream>
+#include <iterator>
 
 CanFloats::CanFloats(float num1, float num2)
 {
@@ -16,6 +17,18 @@ CanFloats::CanFloats()
 CanFloats::CanFloats(CAN canMsg)
 {
   floatPair pair = toFloatPair(canMsg);
+  this->myNum1.myFloat = pair.num1;
+  this->myNum2.myFloat = pair.num2;
+}
+
+CanFloats::CanFloats(uint8_t data[8])
+{
+  CAN canData;
+  for(int i = 0; i < 8; i++)
+  {
+    canData.canBytes[i] = data[i];
+  }
+  floatPair pair = toFloatPair(canData);
   this->myNum1.myFloat = pair.num1;
   this->myNum2.myFloat = pair.num2;
 }

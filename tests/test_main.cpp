@@ -14,6 +14,10 @@ int main() {
     MPPT_Test mppt_test;
 
     mppt_test.test();
+    LV_TEST lv_test;
+    lv_test.currentTest();
+    lv_test.voltageTest();
+    lv_test.tempTest();
 
     return 0;
 }

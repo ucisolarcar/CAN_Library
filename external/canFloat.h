@@ -48,6 +48,9 @@ class CanFloats {
         // To create a CanFloats with a CAN message:
         CanFloats(CAN canMsg);
 
+        // Creating a CanFloats with an array of bytes (since passing a CAN is not necesesary):
+        CanFloats(uint8_t data[8]);
+
         // To make an empty CanFloats:
         CanFloats();
 

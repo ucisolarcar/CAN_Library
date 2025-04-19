@@ -53,8 +53,10 @@ class SensorFunctions {
     SensorFunctions(); 
 
     accelDataArr parseAccel(CAN data, bool debug);
-    float parseCurrent(CAN data, bool debug);
-    floatPair parseGPS(CAN data, bool debug);
+    float parseCurrent(uint8_t data[8], bool debug);
+    float parseVoltage(uint8_t data[8], bool debug);
+    float parseTemp(uint8_t data[8], bool debug);
+    floatPair parseGPS(uint8_t data[8], bool debug);
 };
 
 #endif
