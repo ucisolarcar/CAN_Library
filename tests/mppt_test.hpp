@@ -35,10 +35,10 @@ void MPPT_Test::powerTest() {
     powerFrame.can_id = 0x200;
     powerFrame.can_dlc = 8;
 
-    int16_t inputVoltage = 22 / voltageScaleFactor;
-    int16_t inputCurrent = 8 / currentScaleFactor;
-    int16_t outputVoltage = 24 / voltageScaleFactor;
-    int16_t outputCurrent = 10 / currentScaleFactor;
+    int16_t inputVoltage = -22 / voltageScaleFactor;
+    int16_t inputCurrent = -8 / currentScaleFactor;
+    int16_t outputVoltage = -24 / voltageScaleFactor;
+    int16_t outputCurrent = -10 / currentScaleFactor;
     
     split_int16(inputVoltage, &powerFrame.data[0], &powerFrame.data[1]);
     split_int16(inputCurrent, &powerFrame.data[2], &powerFrame.data[3]);
@@ -79,7 +79,7 @@ void MPPT_Test::statusTest() {
     
     status = parser.parseMPPTStatus(statusFrame.data, 1);
 
-    cout << "Mode: " << status.mode << endl;
+    cout << "Mode: " << dec << status.mode << endl;
     cout << "Fault: " << status.fault << endl;
     cout << "Enabled: " << status.enabled << endl;
     cout << "Ambient temp: " << status.ambientTemp << " C" << endl;
@@ -90,8 +90,8 @@ void MPPT_Test::statusTest() {
     statusFrame.data[0] = 6;
     statusFrame.data[1] = 5;
     statusFrame.data[2] = 1;
-    statusFrame.data[3] = 254;
-    statusFrame.data[4] = 255;
+    statusFrame.data[3] = 206;
+    statusFrame.data[4] = 207;
     
     status = parser.parseMPPTStatus(statusFrame.data, 1);
 

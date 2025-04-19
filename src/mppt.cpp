@@ -25,14 +25,8 @@ mpptStatus MPPT::parseMPPTStatus(uint8_t data[], bool debug) {
     status.fault = (int)data[1];
     status.enabled = (bool)data[2];
 
-    // int8_t a_tempConverted = (int8_t)data[3];
-    // status.ambientTemp = a_tempConverted;
-
-    // int8_t h_tempConverted = (int8_t)data[4];
-    // status.heatsinkTemp = h_tempConverted;
-
-    status.ambientTemp = (int8_t)data[3];
-    status.heatsinkTemp = (int8_t)data[4];
+    status.ambientTemp = static_cast<int>(static_cast<int8_t>(data[3]));
+    status.heatsinkTemp = (int)(int8_t)data[4];
 
     // debug
 

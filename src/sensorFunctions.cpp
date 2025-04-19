@@ -75,6 +75,7 @@ accelDataArr SensorFunctions::parseAccel(CAN data, bool debug)
     {
         cout << "Accelerometer Data:\n";
         // Printing out X, Y, Z axis values with 1 decimal place
+        
         std::cout << "\tX: " << std::fixed << std::setprecision(1) << x << std::endl;
         std::cout << "\tY: " << std::fixed << std::setprecision(1) << y << std::endl;
         std::cout << "\tZ: " << std::fixed << std::setprecision(1) << z << std::endl;
