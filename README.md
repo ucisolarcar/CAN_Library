@@ -23,9 +23,16 @@
     ./test.sh
 ```
 
-### initial todo: (finish by wednesday 4/16)
+### TODO
 - [x] write CMake file
 - [x] make build, clean, test scripts
-- [ ] create files for new classes
-- [ ] complete parser functions for a couple sensors/systems
+- [x] create files for new classes
+- [x] LV sensors
+- [x] mppt
+- [ ] mcu
+- [ ] bms 
+- [ ] faults
+- [ ] final verification
+- [ ] compile on arduino
 - [ ] figure out python integration
+- [ ] integrate into each platform
