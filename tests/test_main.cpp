@@ -6,6 +6,7 @@
 // include tests
 #include "lv_sensors_test.hpp"
 #include "mppt_test.hpp"
+#include "mcu_test.hpp"
 
 #define TEST_LV
 #define TEST_MPPT
@@ -25,5 +26,8 @@ int main() {
     mppt_test.statusTest();
 #endif
     
+    MCU_TEST mcu_test;
+    mcu_test.motorDataTest();
+
     return 0;
 }
