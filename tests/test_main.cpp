@@ -6,6 +6,7 @@
 // include tests
 #include "lv_sensors_test.hpp"
 #include "mppt_test.hpp"
+#include "mcu_test.hpp"
 
 int main() {
     // LV_TEST lv_test;
@@ -19,6 +20,9 @@ int main() {
     lv_test.voltageTest();
     lv_test.tempTest();
     lv_test.testGPS();
+
+    MCU_TEST mcu_test;
+    mcu_test.motorDataTest();
 
     return 0;
 }

@@ -33,11 +33,17 @@ typedef struct ThrottleData
     ControllerStatus controllerStatus;
 } ThrottleData;
 
+
+
 class MCU {
     private:
         //ControllerStatus parseControllerStatus(uint8_t data[], bool debug);
         //MCUSwitchStatus parseSWSignals(uint8_t data[], bool debug);
     public:
+        string faultStrs[16] = {"Idenfitication", "Over Voltage", "Low Voltage", "reserved", "Stall", 
+        "Internal Volts Fault", "Over Temperature", "Throttle Error At Power up", "reserved", "Internal Reset",
+        "Hall Throttle Is Open or Short Circuit", "Angle Sensor Error"};
+
         //constructor:
         MCU();
 

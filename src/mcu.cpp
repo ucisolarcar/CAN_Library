@@ -16,7 +16,7 @@ Parse message 1 (CAN ID: 0x0CF11E05)
 
 and return the corresponding MotorData
 */ 
-MotorData parseMotorData(uint8_t data[], bool debug)
+MotorData MCU::parseMotorData(uint8_t data[], bool debug)
 {
     cout << "parsing motor data\n";
     uint16_t rpm = (data[1] * 256) + data[0];
@@ -30,16 +30,21 @@ MotorData parseMotorData(uint8_t data[], bool debug)
      resultData.mcuVoltage = voltage;
      
     // create an array of bools for the mcuFaults
-    uint8_t mask = 0b1;
+    int mask = 0b1;
 
     // Find out if the bit is flagged (1) in the message and record that state in the array
     // NEED TO TEST
-    int index = 6;
+    //int index = 6;
     for (int i = 0; i < 16; i++)
     {
-        resultData.mcuFaults[i] = (bool) (data[index] & mask);
-        mask << 1;
-        index = i > 7 ? 7 : 6;
+        
+        int index = i < 8 ? 6 : 7;
+    resultData.mcuFaults[i] = (data[index] & mask) != 0;
+    cout << "Bit " << i << ": " << resultData.mcuFaults[i] << endl;
+
+    mask <<= 1;
+    if (i == 7)
+        mask = 0b1;
     }
 
     return resultData;
@@ -55,7 +60,7 @@ Parse message 2 (CAN ID: 0x0CF11F05)
 
 and return the corresponding MotorData
 */ 
-ThrottleData parseThrottleData(uint8_t data[], bool debug)
+ThrottleData MCU::parseThrottleData(uint8_t data[], bool debug)
 {
     ThrottleData resultData;
 
