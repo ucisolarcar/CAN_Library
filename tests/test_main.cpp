@@ -23,6 +23,7 @@ int main() {
 
     MCU_TEST mcu_test;
     mcu_test.motorDataTest();
+    mcu_test.throttleDataTest();
 
     return 0;
 }
