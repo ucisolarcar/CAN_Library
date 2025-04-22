@@ -10,6 +10,7 @@
 
 #define TEST_LV
 #define TEST_MPPT
+#define TEST_MCU
 
 int main() {
 #ifdef TEST_LV
@@ -24,11 +25,14 @@ int main() {
     MPPT_Test mppt_test;
     mppt_test.powerTest();
     mppt_test.statusTest();
+    cout << endl;
 #endif
     
+#ifdef TEST_MCU
     MCU_TEST mcu_test;
     mcu_test.motorDataTest();
     mcu_test.throttleDataTest();
+#endif
 
     return 0;
 }
