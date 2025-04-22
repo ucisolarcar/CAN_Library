@@ -44,6 +44,12 @@ class MCU {
         "Internal Volts Fault", "Over Temperature", "Throttle Error At Power up", "reserved", "Internal Reset",
         "Hall Throttle Is Open or Short Circuit", "Angle Sensor Error"};
 
+        string swStatusStrs[8] = {"Hall A", "Hall B", "Hall C", "12V Brake Switch", "Backward Switch", "Forward Switch", "Foot Switch", "Boost Switch"};
+
+        string feedbackStrs[4] = {"Stationary", "Forward", "Backward", "Reserved"};
+        string commandStrs[4] = {"Neutral", "Forward", "Backward", "Reserved"};
+
+
         //constructor:
         MCU();
 

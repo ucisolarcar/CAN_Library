@@ -37,14 +37,12 @@ MotorData MCU::parseMotorData(uint8_t data[], bool debug)
     //int index = 6;
     for (int i = 0; i < 16; i++)
     {
-        
         int index = i < 8 ? 6 : 7;
-    resultData.mcuFaults[i] = (data[index] & mask) != 0;
-    cout << "Bit " << i << ": " << resultData.mcuFaults[i] << endl;
+        resultData.mcuFaults[i] = (data[index] & mask) != 0;
 
-    mask <<= 1;
-    if (i == 7)
-        mask = 0b1;
+        mask <<= 1;
+        if (i == 7)
+            mask = 0b1;
     }
 
     return resultData;
@@ -65,17 +63,17 @@ ThrottleData MCU::parseThrottleData(uint8_t data[], bool debug)
     ThrottleData resultData;
 
     resultData.mcuThrottle = data[0];
-    resultData.mcuTemp = data[1];
-    resultData.motorTemp = data[2];
+    resultData.mcuTemp = data[1] - 40;
+    resultData.motorTemp = data[2] - 30;
 
-    resultData.controllerStatus.statusFeedback = data[4] & 0b00001100;
+    resultData.controllerStatus.statusFeedback = (data[4] & 0b00001100) >> 2;
     resultData.controllerStatus.statusCmd = data[4] & 0b00000011;
 
     uint8_t mask = 0b1;
     for(int i = 0; i < 8; i++)
     {
         resultData.swStatus[i] = data[5] & mask;
-        mask << 1;
+        mask = mask << 1;
     }
 
     return resultData;
