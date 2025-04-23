@@ -71,8 +71,8 @@ void MPPT_Test::statusTest() {
     mpptStatus status;
     MPPT parser;
 
-    statusFrame.data[0] = 6;
-    statusFrame.data[1] = 5;
+    statusFrame.data[0] = 9;
+    statusFrame.data[1] = 10;
     statusFrame.data[2] = 1;
     statusFrame.data[3] = 55;
     statusFrame.data[4] = 127;
@@ -80,7 +80,9 @@ void MPPT_Test::statusTest() {
     status = parser.parseMPPTStatus(statusFrame.data, 1);
 
     cout << "Mode: " << dec << status.mode << endl;
+    cout << "Mode name: " << parser.getModeName(status.mode) << endl;
     cout << "Fault: " << status.fault << endl;
+    cout << "Fault name: " << parser.getFaultName(status.fault) << endl;
     cout << "Enabled: " << status.enabled << endl;
     cout << "Ambient temp: " << status.ambientTemp << " C" << endl;
     cout << "Heatsink temp: " << status.heatsinkTemp << " C" << endl;
@@ -88,7 +90,7 @@ void MPPT_Test::statusTest() {
     std::cout << "2. Running statusTest() for MPPT Testing" << std::endl; 
     cout << "----------------------------------------------\n";
     statusFrame.data[0] = 6;
-    statusFrame.data[1] = 5;
+    statusFrame.data[1] = 3;
     statusFrame.data[2] = 1;
     statusFrame.data[3] = 206;
     statusFrame.data[4] = 207;
@@ -96,7 +98,9 @@ void MPPT_Test::statusTest() {
     status = parser.parseMPPTStatus(statusFrame.data, 1);
 
     cout << "Mode: " << status.mode << endl;
+    cout << "Mode name: " << parser.getModeName(status.mode) << endl;
     cout << "Fault: " << status.fault << endl;
+    cout << "Fault name: " << parser.getFaultName(status.fault) << endl;
     cout << "Enabled: " << status.enabled << endl;
     cout << "Ambient temp: " << status.ambientTemp << " C" << endl;
     cout << "Heatsink temp: " << status.heatsinkTemp << " C" << endl;

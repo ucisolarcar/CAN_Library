@@ -29,15 +29,30 @@ typedef struct mpptStatus {
 class MPPT {
     private: 
         int16_t combineBytes(uint8_t high, uint8_t low);
+        std::string modeStrs[7] = {"Constant Input Voltage", 
+                                "Constant Input Current",
+                                "Minimum Input Current",
+                                "Constant Output Voltage",
+                                "Constant Output Current",
+                                "Temperature Derating", 
+                                "Fault"};
 
+        std::string faultStrs[8] = {"OK No Error",
+                                   "Configuration Error",
+                                   "Input Over Voltage",
+                                   "Output Over Voltage",
+                                   "Output Over Current",
+                                   "Input Over Current",
+                                   "Input Under Current",
+                                   "Phase Over Current"};
     public:
         // parsing
         powerMeasurements parsePowerMeasurements(uint8_t data[], bool debug);
         mpptStatus parseMPPTStatus(uint8_t data[], bool debug);
 
         // getters
-        std::string getModeName(uint8_t modeNum);
-        
+        std::string getModeName(int modeNum);
+        std::string getFaultName(int faultNum);
 };
 
 

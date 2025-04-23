@@ -32,3 +32,17 @@ mpptStatus MPPT::parseMPPTStatus(uint8_t data[], bool debug) {
 
     return status;
 }
+
+std::string MPPT::getModeName(int modeNum) {
+    if (modeNum > 6 || modeNum < 0) {
+        return "Error getting the mode name!";
+    }
+    return modeStrs[modeNum];
+}
+
+std::string MPPT::getFaultName(int faultNum) {
+    if (faultNum > 7 || faultNum < 0) {
+        return "Error getting the fault name!";
+    }
+    return faultStrs[faultNum];
+}
