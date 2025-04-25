@@ -54,10 +54,10 @@ class MCU {
         MCU();
 
         // Message 1 related functions:
-        MotorData parseMotorData(uint8_t data[], bool debug);
+        MotorData parseMotorData(uint8_t data[]);
 
         // Message 2 related functions:
-        ThrottleData parseThrottleData(uint8_t data[], bool debug);        
+        ThrottleData parseThrottleData(uint8_t data[]);        
 };
 
 #endif

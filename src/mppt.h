@@ -47,8 +47,8 @@ class MPPT {
                                    "Phase Over Current"};
     public:
         // parsing
-        powerMeasurements parsePowerMeasurements(uint8_t data[], bool debug);
-        mpptStatus parseMPPTStatus(uint8_t data[], bool debug);
+        powerMeasurements parsePowerMeasurements(uint8_t data[]);
+        mpptStatus parseMPPTStatus(uint8_t data[]);
 
         // getters
         std::string getModeName(int modeNum);

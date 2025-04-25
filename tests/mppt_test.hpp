@@ -52,7 +52,7 @@ void MPPT_Test::powerTest() {
     for (int i = 0; i <= 7; i++)
         cout << "Data [" << i << "]: " << hex << (int) powerFrame.data[i] << "\n";
 
-    pm = parser.parsePowerMeasurements(powerFrame.data, 1);
+    pm = parser.parsePowerMeasurements(powerFrame.data);
     cout << "Input voltage: " << pm.inVoltage << " V" <<  endl;
     cout << "Input current: " << pm.inCurrent << " A" << endl;
     cout << "Output voltage: " << pm.outVoltage << " V" <<  endl;
@@ -77,7 +77,7 @@ void MPPT_Test::statusTest() {
     statusFrame.data[3] = 55;
     statusFrame.data[4] = 127;
     
-    status = parser.parseMPPTStatus(statusFrame.data, 1);
+    status = parser.parseMPPTStatus(statusFrame.data);
 
     cout << "Mode: " << dec << status.mode << endl;
     cout << "Mode name: " << parser.getModeName(status.mode) << endl;
@@ -95,7 +95,7 @@ void MPPT_Test::statusTest() {
     statusFrame.data[3] = 206;
     statusFrame.data[4] = 207;
     
-    status = parser.parseMPPTStatus(statusFrame.data, 1);
+    status = parser.parseMPPTStatus(statusFrame.data);
 
     cout << "Mode: " << status.mode << endl;
     cout << "Mode name: " << parser.getModeName(status.mode) << endl;

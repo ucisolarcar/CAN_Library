@@ -37,7 +37,7 @@ void MCU_TEST::motorDataTest()
 
     // use the canFrame that we already have and pass it into the parse function:
     MCU parser;
-    MotorData mcuData = parser.parseMotorData(message1Frame.data, true);
+    MotorData mcuData = parser.parseMotorData(message1Frame.data);
     
     cout << "Values received from the parsing function:\n";
     cout << "RPM: " << mcuData.rpm << " rpm" << endl;
@@ -80,7 +80,7 @@ void MCU_TEST::throttleDataTest()
     
 
     MCU parser;
-    ThrottleData mcuData = parser.parseThrottleData(message2Frame.data, true);
+    ThrottleData mcuData = parser.parseThrottleData(message2Frame.data);
 
     cout << "Values received from the parsing function:\n";
     cout << "Throttle Signal: " << dec << (int) mcuData.mcuThrottle << endl;
