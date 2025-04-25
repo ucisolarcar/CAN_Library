@@ -1,0 +1,17 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "/home/bryan/snap/arduino-cli/60/.arduino15/packages/esp32/hardware/esp32/2.0.6/cores/esp32"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "/home/bryan/snap/arduino-cli/60/.arduino15/packages/esp32/hardware/esp32/2.0.6/variants/esp32"
+  },
+  {
+    "Sourcefile": "/home/bryan/projects/solar_car/CAN_Library/arduino_test/build/sketch/arduino_test.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]
