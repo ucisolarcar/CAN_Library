@@ -16,7 +16,7 @@ Parse message 1 (CAN ID: 0x0CF11E05)
 
 and return the corresponding MotorData
 */ 
-MotorData MCU::parseMotorData(uint8_t data[], bool debug)
+MotorData MCU::parseMotorData(uint8_t data[])
 {
     cout << "parsing motor data\n";
     uint16_t rpm = (data[1] * 256) + data[0];
@@ -58,7 +58,7 @@ Parse message 2 (CAN ID: 0x0CF11F05)
 
 and return the corresponding MotorData
 */ 
-ThrottleData MCU::parseThrottleData(uint8_t data[], bool debug)
+ThrottleData MCU::parseThrottleData(uint8_t data[])
 {
     ThrottleData resultData;
 
