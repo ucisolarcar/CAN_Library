@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.15) # ensures people aren't on super outdated systems 
 project(CAN_Library)
 
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 file(GLOB_RECURSE LIBRARY_HEADERS "src/*.h")
@@ -38,3 +39,21 @@ target_link_libraries(CAN_Library_Tests
 )
 
 target_compile_options(CAN_Library_Tests PRIVATE -g -Wall -Wextra -pedantic)
+
+# ========== PYTHON BINDINGS ==========
+set(PYBIND11_FINDPYTHON ON)
+find_package(pybind11 CONFIG REQUIRED)
+
+# Create the Python module
+pybind11_add_module(mpptpy python_bindings/mppt_bindings.cpp)
+
+target_include_directories(mpptpy
+    PRIVATE src
+    PRIVATE external
+)
+
+target_link_libraries(mpptpy PRIVATE CAN_Library)
+
+# ========== INSTALL ==========
+install(TARGETS CAN_Library DESTINATION lib)
+install(TARGETS mpptpy DESTINATION lib/python) # adjust as needed
