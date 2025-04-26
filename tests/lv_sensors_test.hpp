@@ -43,7 +43,7 @@ void LV_TEST::currentTest() {
 
     SensorFunctions parser;
     // Directly pass in the pointer to the array of data in the can_frame
-    parser.parseCurrent((uint8_t*) currCanFrame.data, true);
+    parser.parseCurrent((uint8_t*) currCanFrame.data);
     cout << "\n";
 }
 
@@ -73,7 +73,7 @@ void LV_TEST::voltageTest() {
     copy(begin(currCanFrame.data), end(currCanFrame.data), begin(canData.canBytes));
     // Finally parse the current
     SensorFunctions parser;
-    parser.parseVoltage((uint8_t*) currCanFrame.data, true);
+    parser.parseVoltage((uint8_t*) currCanFrame.data);
     cout << "\n";
 }
 
@@ -104,7 +104,7 @@ void LV_TEST::tempTest()
     copy(begin(currCanFrame.data), end(currCanFrame.data), begin(canData.canBytes));
     // Finally parse the current
     SensorFunctions parser;
-    parser.parseTemp((uint8_t*) currCanFrame.data, true);
+    parser.parseTemp((uint8_t*) currCanFrame.data);
     cout << "\n";
 }
 
@@ -133,7 +133,7 @@ void LV_TEST::testGPS()
 
     // Finally parse the GPS Coordinates
     SensorFunctions parser;
-    parser.parseGPS((uint8_t*) currCanFrame.data, true);
+    parser.parseGPS((uint8_t*) currCanFrame.data);
     cout << "\n";
 }
 

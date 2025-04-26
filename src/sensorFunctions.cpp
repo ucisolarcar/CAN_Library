@@ -13,6 +13,7 @@ SensorFunctions::SensorFunctions()
  ******************************************************************************************************************
  */
 
+/*
 //breakdown floating points to a specific decimal point (UP TO 6 DECIMAL POINTS!!)
 decData SensorFunctions::decimal_breakdown(float value, int decimalpoint) {
     //I use a struct to make it easier to send data
@@ -26,6 +27,7 @@ decData SensorFunctions::decimal_breakdown(float value, int decimalpoint) {
     }
     return output;
 }
+*/
 
 //NEED this for now, might not need this with the inclusion of the library
 //function to convert array elements into a float value:
@@ -60,6 +62,7 @@ float SensorFunctions::canToOneFloat(uint8_t data[8], int startI, int endI)
  ******************************************************************************************************************
  */
 
+/*
 //code to translate accelerometer CAN data into x,y,z values
 //Needs to return 3 floats, with only 1 decimal point precision
 //returns a accelDataArr, 3 indexes, 1 for each float
@@ -82,96 +85,91 @@ accelDataArr SensorFunctions::parseAccel(CAN data, bool debug)
     }
     return output;
 }
+*/
 
 //converts a can message to a float that represents the current sensor data
-float SensorFunctions::parseCurrent(uint8_t data[8], bool debug)
+float SensorFunctions::parseCurrent(uint8_t data[8])
 {    
     // Creating the CanFloats object for conversion
     CanFloats converter(data);
-    if(debug)
-    {
+#ifdef DEBUG
         cout << "CAN: \n";
         for (int i = 0; i <= 7; i++)
             cout << "Byte [" << i << "]: " << hex << (int) data[i] << "\n";
-    }
-    
+#endif 
+
     // get the floats back from the CanFloats object
     floatPair floats = converter.getFloats();
 
     float current = floats.num1;
-    if(debug)
-    {
-        cout << "Parsing the Current based off of CAN struct...\n";
-        cout << "----------------------------------------------\n";
-        cout << "Current: " << current << "A\n";
-    }
+
     return current;
 }
 
 // Given the CAN struct data return a float representing the voltage in (V)
-float SensorFunctions::parseVoltage(uint8_t data[8], bool debug)
+float SensorFunctions::parseVoltage(uint8_t data[8])
 {
     // Creating the CanFloats object for conversion
     CanFloats converter(data);
-    if(debug)
-    {
+
+#ifdef DEBUG
         cout << "CAN: \n";
         for (int i = 0; i <= 7; i++)
             cout << "Byte [" << i << "]: " << hex << (int) data[i] << "\n";
-    }
+#endif
     
     // get the floats back from the CanFloats object
     floatPair floats = converter.getFloats();
 
     float voltage = floats.num1;
-    if(debug)
-    {
+#ifdef DEBUG
         cout << "Parsing the Voltage based off of CAN struct...\n";
         cout << "----------------------------------------------\n";
         cout << "Voltage: " << voltage << "V\n";
-    }
+#endif
+
     return voltage;
 }
 
 // Given the CAN struct data return a float representing the temperature in F
-float SensorFunctions::parseTemp(uint8_t data[8], bool debug)
+float SensorFunctions::parseTemp(uint8_t data[8])
 {
     // Creating the CanFloats object for conversion
     CanFloats converter(data);
-    if(debug)
-    {
+
+#ifdef DEBUG
         cout << "CAN: \n";
         for (int i = 0; i <= 7; i++)
             cout << "Byte [" << i << "]: " << hex << (int) data[i] << "\n";
-    }
+#endif
     
     // get the floats back from the CanFloats object
     floatPair floats = converter.getFloats();
 
     float temp = floats.num1;
-    if(debug)
-    {
+
+#ifdef DEBUG
         cout << "Parsing the Temp based off of CAN struct...\n";
         cout << "----------------------------------------------\n";
         cout << "Temp: " << temp << "F\n";
-    }
+#endif
+
     return temp;
 }
 
 //converts a can message to a floatPair containing the lat long for GPS.
 //Will probably have to rename it since it only handles latlong, other data might
 //want to be pulled such as the speed, fix, and other GPS related data
-floatPair SensorFunctions::parseGPS(uint8_t data[8], bool debug)
+floatPair SensorFunctions::parseGPS(uint8_t data[8])
 {
     CanFloats canfloats = CanFloats(data);
     floatPair latLong = canfloats.getFloats();
 
-    if(debug)
-    {
+#ifdef DEBUG
         // Printing the latitude and longitude with 4 decimal places
         std::cout << "Lat: " << std::fixed << std::setprecision(4) << latLong.num1;
         std::cout << " Long: " << std::fixed << std::setprecision(4) << latLong.num2 << " (DDMM.MMMM) " << std::endl;
-    }
+#endif
 
     return latLong;
 }

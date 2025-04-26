@@ -16,10 +16,11 @@ Date: 4/11/25
 #include "can.h"
 #include "canFloat.h"
 
+#define DEBUG
+
 /*
 ******************************************************************************************************************
 Structs:
-*/
 
 //Defining float array struct for accelerometers:
 typedef struct accelDataArr
@@ -33,6 +34,7 @@ typedef struct decData
 {
   uint8_t arr[7] = {0};
 } decData;
+*/
 
 /*
 ******************************************************************************************************************
@@ -44,7 +46,7 @@ class SensorFunctions {
   //I don't think there is a need for any private variables
   private: 
     //Global Private Functions
-    decData decimal_breakdown(float value, int decimalpoint);
+    // decData decimal_breakdown(float value, int decimalpoint);
 
     float canToOneFloat(uint8_t data[8], int startI, int endI);
   
@@ -52,11 +54,11 @@ class SensorFunctions {
     //constructor:
     SensorFunctions(); 
 
-    accelDataArr parseAccel(CAN data, bool debug);
-    float parseCurrent(uint8_t data[8], bool debug);
-    float parseVoltage(uint8_t data[8], bool debug);
-    float parseTemp(uint8_t data[8], bool debug);
-    floatPair parseGPS(uint8_t data[8], bool debug);
+    // accelDataArr parseAccel(CAN data, bool debug);
+    float parseCurrent(uint8_t data[8]);
+    float parseVoltage(uint8_t data[8]);
+    float parseTemp(uint8_t data[8]);
+    floatPair parseGPS(uint8_t data[8]);
 };
 
 #endif

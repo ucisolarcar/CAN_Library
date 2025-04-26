@@ -26,7 +26,7 @@ import PyCANLibrary as canLib
 
 ### TODO List
 - [x] finish MPPT test
-- [ ] write MCU bindings
-- [ ] mcu test
+- [x] write MCU bindings
+- [x] mcu test
 - [ ] write LV sensor bindigns
 - [ ] LV sensor test
