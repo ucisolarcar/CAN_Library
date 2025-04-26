@@ -120,7 +120,85 @@ for i in range (0, 8):
 
 # ============================== LV PARSING =================================
 
-print("\nTesting LV Sensors Data Parsing")
+sensors = canLib.SensorFunctions()
+
+print("\nTesting LV Current Sensor Data Parsing")
 print("----------------------------------------")
 
+print("Expected value: -0.125 A")
 
+frame = bytearray([0xbe, 0, 0, 0, 0, 0, 0, 0])
+
+# display frame
+print("\nThis is what the CAN frame looks like")
+for i in range(0, len(frame)):
+    print(f"data[{i}]: 0x{frame[i]:02X}")
+
+# parsing the data
+print("\nParsing the data...\n")
+
+current = sensors.parseCurrent(frame)
+
+print("Result of parsing function:")
+print(f"{current} A")
+
+print("\nTesting LV Voltage Sensor Data Parsing")
+print("----------------------------------------")
+
+print("Expected value: 12.05 V")
+
+frame = bytearray([0x41, 0x40, 0xcc, 0xcd, 0, 0, 0, 0])
+
+# display frame
+print("\nThis is what the CAN frame looks like")
+for i in range(0, len(frame)):
+    print(f"data[{i}]: 0x{frame[i]:02X}")
+
+# parsing the data
+print("\nParsing the data...\n")
+
+voltage = sensors.parseVoltage(frame)
+
+print("Result of parsing function:")
+print(f"{voltage} V")
+
+print("\nTesting LV Thermistor Data Parsing")
+print("----------------------------------------")
+
+print("Expected value: 72.01 F")
+
+frame = bytearray([0x42, 0x90, 0x05, 0x1f, 0, 0, 0, 0])
+
+# display frame
+print("\nThis is what the CAN frame looks like")
+for i in range(0, len(frame)):
+    print(f"data[{i}]: 0x{frame[i]:02X}")
+
+# parsing the data
+print("\nParsing the data...\n")
+
+temp = sensors.parseTemp(frame)
+
+print("Result of parsing function:")
+print(f"{temp} F")
+
+print("\nTesting LV GPS Data Parsing")
+print("----------------------------------------")
+
+print("Expected value: Lat 40 42.5998, Long: 74 00.4853")
+
+frame = bytearray([0x45, 0x7c, 0xa9, 0x99, 0x45, 0xe7, 0x43, 0xe2])
+
+# display frame
+print("\nThis is what the CAN frame looks like")
+for i in range(0, len(frame)):
+    print(f"data[{i}]: 0x{frame[i]:02X}")
+
+# parsing the data
+print("\nParsing the data...\n")
+
+gps = sensors.parseGPS(frame)
+
+print("Result of parsing function:")
+print("Lat: ", gps.num1)
+print("Long: ", gps.num2)
