@@ -78,3 +78,17 @@ ThrottleData MCU::parseThrottleData(uint8_t data[])
 
     return resultData;
 }
+
+std::string MCU::getFaultStr(int faultNum) {
+    return faultStrs[faultNum];
+}
+
+std::string MCU::getSwStatusStr(int statusNum) {
+    return swStatusStrs[statusNum];
+}
+std::string MCU::getFeedbackStr(int feedbackNum) {
+    return feedbackStrs[feedbackNum];
+}
+std::string MCU::getCommandStr(int commmandNum) {
+    return commandStrs[commmandNum];
+}

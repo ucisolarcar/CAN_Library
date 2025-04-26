@@ -48,7 +48,7 @@ void MCU_TEST::motorDataTest()
     for (int i = 0 ; i < 16; i++)
     {
         if(mcuData.mcuFaults[i] == 1)
-            cout << "Fault " << i << " : " << parser.faultStrs[i] << endl;
+            cout << "Fault " << i << " : " << parser.getFaultStr(i) << endl;
     }
     cout << "motorDataTest() is done!\n\n";
 }
@@ -86,14 +86,14 @@ void MCU_TEST::throttleDataTest()
     cout << "Throttle Signal: " << dec << (int) mcuData.mcuThrottle << endl;
     cout << "MCU Temp: " << dec << (int) mcuData.mcuTemp << "C" << endl;
     cout << "Motor Temp: " << dec << (int) mcuData.motorTemp << "C" << endl;
-    cout << "Feedback Status: " << parser.feedbackStrs[mcuData.controllerStatus.statusFeedback] << endl;
-    cout << "Command Status: " << parser.commandStrs[mcuData.controllerStatus.statusCmd] << endl;
+    cout << "Feedback Status: " << parser.getFeedbackStr(mcuData.controllerStatus.statusFeedback) << endl;
+    cout << "Command Status: " << parser.getCommandStr(mcuData.controllerStatus.statusCmd) << endl;
 
     cout << "Status of Switch Signals:\n";
     for (int i = 0 ; i < 8; i++)
     {
         if(mcuData.swStatus[i] == 1)
-            cout << parser.swStatusStrs[i] << ": True" << endl;
+            cout << parser.getSwStatusStr(i) << ": True" << endl;
     }
     cout << "throttleDataTest() is done!\n\n";
 }

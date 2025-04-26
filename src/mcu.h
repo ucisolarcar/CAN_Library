@@ -39,7 +39,6 @@ class MCU {
     private:
         //ControllerStatus parseControllerStatus(uint8_t data[], bool debug);
         //MCUSwitchStatus parseSWSignals(uint8_t data[], bool debug);
-    public:
         string faultStrs[16] = {"Idenfitication", "Over Voltage", "Low Voltage", "reserved", "Stall", 
         "Internal Volts Fault", "Over Temperature", "Throttle Error At Power up", "reserved", "Internal Reset",
         "Hall Throttle Is Open or Short Circuit", "Angle Sensor Error"};
@@ -49,7 +48,7 @@ class MCU {
         string feedbackStrs[4] = {"Stationary", "Forward", "Backward", "Reserved"};
         string commandStrs[4] = {"Neutral", "Forward", "Backward", "Reserved"};
 
-
+    public:
         //constructor:
         MCU();
 
@@ -58,6 +57,10 @@ class MCU {
 
         // Message 2 related functions:
         ThrottleData parseThrottleData(uint8_t data[]);        
+        std::string getFaultStr(int faultNum);
+        std::string getSwStatusStr(int statusNum);
+        std::string getFeedbackStr(int feedbackNum);
+        std::string getCommandStr(int commmandNum);
 };
 
 #endif
