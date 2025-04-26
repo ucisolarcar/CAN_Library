@@ -3,6 +3,7 @@
 
 #include "../src/mppt.h"
 #include "../src/mcu.h"
+#include "../src/sensorFunctions.h"
 
 namespace py = pybind11;
 
@@ -116,5 +117,25 @@ PYBIND11_MODULE(PyCANLibrary, m) {
         .def("getFeedbackStr", &MCU::getFeedbackStr)
         .def("getCommandStr", &MCU::getCommandStr);
 
+        // Bind the floatPair struct
+    py::class_<floatPair>(m, "floatPair")
+        .def(py::init<>())  // Default constructor
+        .def_readwrite("num1", &floatPair::num1)  // Access to num1
+        .def_readwrite("num2", &floatPair::num2); // Access to num2
 
+    // Bind the SensorFunctions class
+    py::class_<SensorFunctions>(m, "SensorFunctions")
+        .def(py::init<>())  // Constructor
+        .def("parseCurrent", [](SensorFunctions& self, py::bytearray data) {
+                return parserWrapper(self, data, &SensorFunctions::parseCurrent);
+            })
+        .def("parseVoltage", [](SensorFunctions& self, py::bytearray data) {
+                return parserWrapper(self, data, &SensorFunctions::parseVoltage);
+            })
+        .def("parseTemp", [](SensorFunctions& self, py::bytearray data) {
+                return parserWrapper(self, data, &SensorFunctions::parseTemp);
+            })
+        .def("parseGPS", [](SensorFunctions& self, py::bytearray data) {
+                return parserWrapper(self, data, &SensorFunctions::parseGPS);
+            });
 }

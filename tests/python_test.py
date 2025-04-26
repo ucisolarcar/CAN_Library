@@ -118,7 +118,9 @@ for i in range (0, 8):
     if mcuThrottleData.swStatus[i] == 1:
         print(f"{mcu.getSwStatusStr(i)}: True")
 
+# ============================== LV PARSING =================================
 
 print("\nTesting LV Sensors Data Parsing")
 print("----------------------------------------")
+
 
