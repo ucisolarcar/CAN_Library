@@ -2,6 +2,7 @@
 #include <pybind11/pytypes.h>
 
 #include "../src/mppt.h"
+#include "../src/mcu.h"
 
 namespace py = pybind11;
 
@@ -22,6 +23,8 @@ ReturnType parserWrapper(ClassType& self, py::bytearray data, ReturnType (ClassT
 
 
 PYBIND11_MODULE(PyCANLibrary, m) {
+
+    // MPPT ==================================================================
     py::class_<powerMeasurements>(m, "powerMeasurements")
         .def_readwrite("inVoltage", &powerMeasurements::inVoltage)
         .def_readwrite("outVoltage", &powerMeasurements::outVoltage)
@@ -45,4 +48,71 @@ PYBIND11_MODULE(PyCANLibrary, m) {
         })
         .def("getModeName", &MPPT::getModeName)
         .def("getFaultName", &MPPT::getFaultName);
+
+
+    // MCU ===================================================================
+        // Bind ControllerStatus struct
+    py::class_<ControllerStatus>(m, "ControllerStatus")
+        .def(py::init<>())
+        .def_readwrite("statusFeedback", &ControllerStatus::statusFeedback)
+        .def_readwrite("statusCmd", &ControllerStatus::statusCmd);
+
+    py::class_<MotorData>(m, "MotorData")
+    .def(py::init<>())
+    .def_readwrite("rpm", &MotorData::rpm)
+    .def_readwrite("mcuCurrent", &MotorData::mcuCurrent)
+    .def_readwrite("mcuVoltage", &MotorData::mcuVoltage)
+    .def_property("mcuFaults",
+        [](const MotorData &self) {
+            py::list faults;
+            for (int i = 0; i < 16; ++i) {
+                faults.append(self.mcuFaults[i]);
+            }
+            return faults;
+        },
+        [](MotorData &self, py::list faults) {
+            if (faults.size() != 16)
+                throw std::runtime_error("Expected list of size 16 for mcuFaults");
+            for (int i = 0; i < 16; ++i) {
+                self.mcuFaults[i] = faults[i].cast<bool>();
+            }
+        });
+
+    py::class_<ThrottleData>(m, "ThrottleData")
+    .def(py::init<>())
+    .def_readwrite("mcuThrottle", &ThrottleData::mcuThrottle)
+    .def_readwrite("mcuTemp", &ThrottleData::mcuTemp)
+    .def_readwrite("motorTemp", &ThrottleData::motorTemp)
+    .def_property("swStatus",
+        [](const ThrottleData &self) {
+            py::list status;
+            for (int i = 0; i < 8; ++i) {
+                status.append(self.swStatus[i]);
+            }
+            return status;
+        },
+        [](ThrottleData &self, py::list status) {
+            if (status.size() != 8)
+                throw std::runtime_error("Expected list of size 8 for swStatus");
+            for (int i = 0; i < 8; ++i) {
+                self.swStatus[i] = status[i].cast<bool>();
+            }
+        }
+    )
+    .def_readwrite("controllerStatus", &ThrottleData::controllerStatus);
+
+    // Bind MCU class
+    py::class_<MCU>(m, "MCU")
+        .def(py::init<>())
+        .def("parseMotorData", [](MCU& self, py::bytearray data) {
+                return parserWrapper(self, data, &MCU::parseMotorData); 
+            })
+        .def("parseThrottleData", [](MCU& self, py::bytearray data) {
+                return parserWrapper(self, data, &MCU::parseThrottleData);
+            })
+
+        .def("getFaultStr", &MCU::getFaultStr)
+        .def("getSwStatusStr", &MCU::getSwStatusStr)
+        .def("getFeedbackStr", &MCU::getFeedbackStr)
+        .def("getCommandStr", &MCU::getCommandStr);
 }

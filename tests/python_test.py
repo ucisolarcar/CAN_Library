@@ -65,4 +65,59 @@ print("Ambient temp: ", status.ambientTemp)
 print("Heatsink temp:",  status.heatsinkTemp)
 
 # ============================== MPPT PARSING =================================
+mcu = canLib.MCU()
 
+print("\nTesting MCU Motor Data Parsing")
+print("----------------------------------------")
+frame = bytearray([0xb8, 0x0b, 0x77, 0x01, 0x60, 0x00, 0x92, 0x2])
+
+# display frame
+print("\nThis is what the CAN frame looks like")
+for i in range(0, len(frame)):
+    print(f"data[{i}]: 0x{frame[i]:02X}")
+
+# parsing the data
+print("\nParsing the data...\n")
+
+mcuMotorData = mcu.parseMotorData(frame)
+
+print("Values received from parsing function")
+print(f"RPM: {mcuMotorData.rpm} rpm")
+print(f"MCU Current: {mcuMotorData.mcuCurrent} A")
+print(f"MCU Voltage: {mcuMotorData.mcuVoltage} V")
+
+print("MCU Faults")
+
+for i in range(0, 16):
+    if mcuMotorData.mcuFaults[i] == 1:
+        print(f"Fault {i} : {mcu.getFaultStr(i)}")
+
+print("\nTesting MCU Throttle Data Parsing")
+print("----------------------------------------")
+frame = bytearray([0x96, 0x88, 0x82, 0x00, 0x05, 0x20, 0x00, 0x00])
+
+# display frame
+print("\nThis is what the CAN frame looks like")
+for i in range(0, len(frame)):
+    print(f"data[{i}]: 0x{frame[i]:02X}")
+
+# parsing the data
+print("\nParsing the data...\n")
+
+mcuThrottleData = mcu.parseThrottleData(frame)
+
+print("Values received from parsing function")
+print(f"Throttle Signal: {mcuThrottleData.mcuThrottle}")
+print(f"MCU Temp: {mcuThrottleData.mcuTemp} C")
+print(f"Motor Temp: {mcuThrottleData.motorTemp} C")
+print(f"Feedback Status: {mcu.getFeedbackStr(mcuThrottleData.controllerStatus.statusFeedback)}")
+print(f"Command Status: {mcu.getCommandStr(mcuThrottleData.controllerStatus.statusCmd)}")
+
+print("Status of Switch Signals:")
+for i in range (0, 8):
+    if mcuThrottleData.swStatus[i] == 1:
+        print(f"{mcu.getSwStatusStr(i)}: True")
+
+
+print("\nTesting LV Sensors Data Parsing")
+print("----------------------------------------")

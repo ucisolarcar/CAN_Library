@@ -57,6 +57,8 @@ class MCU {
 
         // Message 2 related functions:
         ThrottleData parseThrottleData(uint8_t data[]);        
+
+        // getter functions for message strings
         std::string getFaultStr(int faultNum);
         std::string getSwStatusStr(int statusNum);
         std::string getFeedbackStr(int feedbackNum);
