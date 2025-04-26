@@ -45,15 +45,15 @@ set(PYBIND11_FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
 
 # Create the Python module
-pybind11_add_module(mpptpy python_bindings/mppt_bindings.cpp)
+pybind11_add_module(PyCANLibrary python_bindings/PyCANLibrary.cpp)
 
-target_include_directories(mpptpy
-    PRIVATE src
+target_include_directories( PyCANLibrary
+    PRIVATE src PyCANLibrary
     PRIVATE external
 )
 
-target_link_libraries(mpptpy PRIVATE CAN_Library)
+target_link_libraries(PyCANLibrary PRIVATE CAN_Library)
 
 # ========== INSTALL ==========
 install(TARGETS CAN_Library DESTINATION lib)
-install(TARGETS mpptpy DESTINATION lib/python) # adjust as needed
+install(TARGETS PyCANLibrary DESTINATION lib/python) # adjust as needed

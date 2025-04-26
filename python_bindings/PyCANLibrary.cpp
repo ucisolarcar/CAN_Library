@@ -5,40 +5,23 @@
 
 namespace py = pybind11;
 
-
-void process_bytes(py::bytearray py_data, uint8_t* &ptr, size_t &length) {
-    py::buffer_info info = py::buffer(py_data).request();
+// Generic wrapper function to convert python byte array to c-style uint8_t array
+template <typename ReturnType, typename ClassType>
+ReturnType parserWrapper(ClassType& self, py::bytearray data, ReturnType (ClassType::*method)(uint8_t*)) {
+    py::buffer_info info = py::buffer(data).request();
 
     if (info.ndim != 1) {
         throw std::runtime_error("Expected a 1D buffer");
     }
 
-    // The data pointer is a uint8_t* in this case, since Python bytes are byte-oriented.
-    ptr = static_cast<uint8_t*>(info.ptr);
-    length = static_cast<size_t>(info.size);  // Store the length of the data
+    uint8_t* buf = reinterpret_cast<uint8_t*>(info.ptr);
+    size_t length = static_cast<size_t>(info.size);
+
+    return (self.*method)(buf);
 }
 
-powerMeasurements parsePowerWrapper(MPPT& self, py::iterable data) {
-    uint8_t *ptr;
-    size_t length;
 
-    process_bytes(data, ptr, length);
-
-    if (length != 8) {
-        std::cout << "ERROR" << std::endl;
-    }
-
-    uint8_t buf[length];
-
-    for (int i = 0; i < length; i++) {
-        buf[i] = *ptr;  
-        ptr++;
-    }
-
-    return self.parsePowerMeasurements(buf);
-}
-
-PYBIND11_MODULE(mpptpy, m) {
+PYBIND11_MODULE(PyCANLibrary, m) {
     py::class_<powerMeasurements>(m, "powerMeasurements")
         .def_readwrite("inVoltage", &powerMeasurements::inVoltage)
         .def_readwrite("outVoltage", &powerMeasurements::outVoltage)
@@ -54,8 +37,12 @@ PYBIND11_MODULE(mpptpy, m) {
 
     py::class_<MPPT>(m, "MPPT")
         .def(py::init<>())
-        .def("parsePowerMeasurements", &parsePowerWrapper)
-        .def("parseMPPTStatus", &MPPT::parseMPPTStatus)
+        .def("parsePowerMeasurements", [](MPPT& self, py::bytearray data) {
+            return parserWrapper(self, data, &MPPT::parsePowerMeasurements);
+        })
+        .def("parseMPPTStatus", [](MPPT& self, py::bytearray data) {
+            return parserWrapper(self, data, &MPPT::parseMPPTStatus);
+        })
         .def("getModeName", &MPPT::getModeName)
         .def("getFaultName", &MPPT::getFaultName);
 }
