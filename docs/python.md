@@ -23,10 +23,6 @@ import PyCANLibrary as canLib
 
 ### Usage
 - See tests/python_test.py for example usage
-
-### TODO List
-- [x] finish MPPT test
-- [x] write MCU bindings
-- [x] mcu test
-- [ ] write LV sensor bindigns
-- [ ] LV sensor test
+~~~
+python3 tests/python_test.py
+~~~
