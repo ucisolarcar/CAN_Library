@@ -64,7 +64,7 @@ print("Enabled: ", status.enabled)
 print("Ambient temp: ", status.ambientTemp)
 print("Heatsink temp:",  status.heatsinkTemp)
 
-# ============================== MPPT PARSING =================================
+# ============================== MCU PARSING =================================
 mcu = canLib.MCU()
 
 print("\nTesting MCU Motor Data Parsing")
