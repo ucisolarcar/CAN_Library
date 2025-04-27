@@ -22,6 +22,7 @@ const int tempFactor = 1;
 const float currentFactor = 0.1;
 const float voltageFactor = 0.1;
 const float packFactor = 0.1;
+const float socFactor = 0.5;
 
 // 0x300
 typedef struct packInfo {
@@ -33,10 +34,10 @@ typedef struct packInfo {
 
 // 0x301
 typedef struct tempInfo {
-    int avgTemp;
-    int internalTemp;
-    int highTemp;
-    int highTempID;     // returns the ID of the thermistor detecting the highest temp reading
+    uint8_t avgTemp;
+    uint8_t internalTemp;
+    uint8_t highTemp;
+    uint8_t highTempID;     // returns the ID of the thermistor detecting the highest temp reading
 } tempInfo;
 
 typedef struct faultInfo {
@@ -49,6 +50,7 @@ typedef struct faultInfo {
 class BMS {
     private:
         // Strings that correspond with the fault messages:
+        int16_t combineBytes(uint8_t high, uint8_t low);
 
     public:
         // constructor:
