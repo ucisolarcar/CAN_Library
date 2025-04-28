@@ -80,3 +80,8 @@ faultInfo BMS::parseFaults(uint8_t data[])
 
     return output;
 }
+
+string BMS::getCurrLimitStr(int currLimitNum)
+{
+    return currLimitStrArr[currLimitNum];
+}

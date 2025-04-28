@@ -50,6 +50,10 @@ typedef struct faultInfo {
 class BMS {
     private:
         // Strings that correspond with the fault messages:
+        string currLimitStrArr[16] = { ""
+        };
+        
+
         int16_t combineBytes(uint8_t high, uint8_t low);
 
     public:
