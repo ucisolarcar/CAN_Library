@@ -18,7 +18,7 @@ typedef struct ControllerStatus
 
 typedef struct MotorData
 {
-    float rpm;
+    uint16_t rpm;
     float mcuCurrent;
     float mcuVoltage;
     bool mcuFaults[16];

@@ -44,7 +44,7 @@ faultInfo BMS::parseFaults(uint8_t data[])
     // setting flags for current limit status
     for (int i = 0; i < 16; i++)
     {
-        int index = i < 8 ? 0 : 1;
+        int index = i < 8 ? 1 : 0;
         output.currLimitStatus[i] = (bool) ((data[index] & mask) != 0);
 
         mask <<= 1;
@@ -56,7 +56,7 @@ faultInfo BMS::parseFaults(uint8_t data[])
     // setting flags for DTC#1:
     for (int i = 0; i < 16; i++)
     {
-        int index = i < 8 ? 2 : 3;
+        int index = i < 8 ? 3 : 2;
         output.dtcFlags1[i] = (bool) ((data[index] & mask) != 0);
 
         mask <<= 1;
@@ -68,7 +68,7 @@ faultInfo BMS::parseFaults(uint8_t data[])
     // setting flags for DTC#2:
     for (int i = 0; i < 16; i++)
     {
-        int index = i < 8 ? 4 : 5;
+        int index = i < 8 ? 5 : 4;
         output.dtcFlags2[i] = (bool) ((data[index] & mask) != 0);
 
         mask <<= 1;
@@ -84,4 +84,19 @@ faultInfo BMS::parseFaults(uint8_t data[])
 string BMS::getCurrLimitStr(int currLimitNum)
 {
     return currLimitStrArr[currLimitNum];
+}
+
+string BMS::getDtcFlag1Str(int flag1)
+{
+    return dtcFlag1StrArr[flag1];
+}
+
+string BMS::getDtcFlag2Str(int flag2)
+{
+    return dtcFlag2StrArr[flag2];
+}
+
+string BMS::getPrechargeStr(int state)
+{
+    return prechargeStrArr[state];
 }

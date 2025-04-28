@@ -25,7 +25,7 @@ void MCU_TEST::motorDataTest()
     can_frame message1Frame;
     message1Frame.can_id = 0x0CF11E05;
     message1Frame.can_dlc = 8;
-    uint8_t message1Data[8] = {0xb8, 0x0b, 0x77, 0x01, 0x60, 0x00, 0x92, 0x2};
+    uint8_t message1Data[8] = {0xb8, 0x0b, 0xA6, 0x0E, 0xC0, 0x03, 0x92, 0x2};
     copy(begin(message1Data), end(message1Data), begin(message1Frame.data));
     cout << "ID: " << hex << message1Frame.can_id << endl;
     cout << "DLC: " << dec << (int) message1Frame.can_dlc << endl;
@@ -40,7 +40,7 @@ void MCU_TEST::motorDataTest()
     MotorData mcuData = parser.parseMotorData(message1Frame.data);
     
     cout << "Values received from the parsing function:\n";
-    cout << "RPM: " << mcuData.rpm << " rpm" << endl;
+    cout << "RPM: " << dec << mcuData.rpm << " rpm" << endl;
     cout << "MCU Current: " << mcuData.mcuCurrent << " A" << endl;
     cout << "MCU Voltage: " << mcuData.mcuVoltage << " V" << endl;
 
