@@ -19,8 +19,8 @@ and return the corresponding MotorData
 MotorData MCU::parseMotorData(uint8_t data[])
 {
     uint16_t rpm = (data[1] * 256) + data[0];
-    uint16_t current = (data[3] * 256) + data[2];
-    uint16_t voltage = (data[5] * 256) + data[4];
+    float current = ((data[3] * 256) + (data[2])) / 10;
+    float voltage = ((data[5] * 256) + data[4]) / 10;
 
      // Now create that MotorData struct
      MotorData resultData;
