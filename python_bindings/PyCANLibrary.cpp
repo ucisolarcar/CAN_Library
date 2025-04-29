@@ -4,6 +4,7 @@
 #include "../src/mppt.h"
 #include "../src/mcu.h"
 #include "../src/sensorFunctions.h"
+#include "../src/bms.h"
 
 namespace py = pybind11;
 
@@ -138,4 +139,48 @@ PYBIND11_MODULE(PyCANLibrary, m) {
         .def("parseGPS", [](SensorFunctions& self, py::bytearray data) {
                 return parserWrapper(self, data, &SensorFunctions::parseGPS);
             });
+
+        // Bind packInfo struct
+    py::class_<packInfo>(m, "packInfo")
+        .def(py::init<>())
+        .def_readwrite("packVoltage", &packInfo::packVoltage)
+        .def_readwrite("packCurrent", &packInfo::packCurrent)
+        .def_readwrite("packSOC", &packInfo::packSOC)
+        .def_readwrite("packPower", &packInfo::packPower);
+
+    // Bind tempInfo struct
+    py::class_<tempInfo>(m, "tempInfo")
+        .def(py::init<>())
+        .def_readwrite("avgTemp", &tempInfo::avgTemp)
+        .def_readwrite("internalTemp", &tempInfo::internalTemp)
+        .def_readwrite("highTemp", &tempInfo::highTemp)
+        .def_readwrite("highTempID", &tempInfo::highTempID);
+
+    // Bind faultInfo struct
+    py::class_<faultInfo>(m, "faultInfo")
+        .def(py::init<>())
+        .def_readwrite("currLimitStatus", &faultInfo::currLimitStatus)
+        .def_readwrite("dtcFlags1", &faultInfo::dtcFlags1)
+        .def_readwrite("dtcFlags2", &faultInfo::dtcFlags2)
+        .def_readwrite("prechargeState", &faultInfo::prechargeState);
+
+    // Bind BMS class
+    py::class_<BMS>(m, "BMS")
+        .def(py::init<>())
+        .def("parsePackInfo", [](BMS& self, py::bytearray data) {
+                return parserWrapper(self, data, &BMS::parsePackInfo);
+            })
+        .def("parseTempInfo", [](BMS& self, py::bytearray data) {
+                return parserWrapper(self, data, &BMS::parseTempInfo);
+            })
+        .def("parseFaults", [](BMS& self, py::bytearray data) {
+                return parserWrapper(self, data, &BMS::parseFaults);
+            })
+        
+        .def("getCurrLimitStr", &BMS::getCurrLimitStr, py::arg("currLimitNum"))
+        .def("getDtcFlag1Str", &BMS::getDtcFlag1Str, py::arg("flag1"))
+        .def("getDtcFlag2Str", &BMS::getDtcFlag2Str, py::arg("flag2"))
+        .def("getPrechargeStr", &BMS::getPrechargeStr, py::arg("state"));
+        
+
 }

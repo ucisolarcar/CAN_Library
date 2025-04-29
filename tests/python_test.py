@@ -202,3 +202,5 @@ gps = sensors.parseGPS(frame)
 print("Result of parsing function:")
 print("Lat: ", gps.num1)
 print("Long: ", gps.num2)
+
+# ============================== BMS PARSING =================================
