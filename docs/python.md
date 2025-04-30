@@ -26,3 +26,11 @@ import PyCANLibrary as canLib
 ~~~
 python3 tests/python_test.py
 ~~~
+- each parsing function takes a 8 element bytearray as a argument
+- each function returns the data (each class a different return type)
+- documentation for each function coming soon
+
+### Bindings
+- C++ Classes are bound to Python classes
+- C++ arrays are bound to python lists
+- C++ uint8_t arrays are bound to python bytearrays
