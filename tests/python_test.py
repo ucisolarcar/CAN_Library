@@ -204,3 +204,91 @@ print("Lat: ", gps.num1)
 print("Long: ", gps.num2)
 
 # ============================== BMS PARSING =================================
+bms = canLib.BMS()
+
+print("\nTesting BMS Pack Info data parsing")
+print("----------------------------------------")
+
+print("Expected values: current: 50.8A, voltage: 90.6V, \nSOC: 55.5%, Pack Power: 30.8kW")
+
+frame = bytearray([0x01, 0xFC, 0x03, 0x8A, 0x02, 0x2B, 0x01, 0x34])
+
+# display frame
+print("\nThis is what the CAN frame looks like")
+for i in range(0, len(frame)):
+    print(f"data[{i}]: 0x{frame[i]:02X}")
+
+# parsing the data
+print("\nParsing the data...\n")
+pack_info = bms.parsePackInfo(frame)
+
+print("Results:")
+print(f"Pack Current: {pack_info.packCurrent} A")
+print(f"Pack Voltage: {pack_info.packVoltage} V")
+print(f"Pack SOC: {pack_info.packSOC}%")
+print(f"Pack Power: {pack_info.packPower} kW")
+print("(You probably have to manually round these values)")
+
+print("\nTesting BMS Temperature Info data parsing")
+print("-------------------------------------------")
+
+print("Expected values:\nAvg Temp: 71C\nInternal Temp: 80C\nHighest Temp: 82C\nHighest Temp Thermistor ID: 1\n")
+
+frame = bytearray([0x47, 0x00, 0x50, 0x00, 0x52, 0x00, 0x01, 0x00])
+
+# display frame
+print("\nThis is what the CAN frame looks like")
+for i in range(0, len(frame)):
+    print(f"data[{i}]: 0x{frame[i]:02X}")
+
+# parsing the data
+print("\nParsing the data...\n")
+temp_info = bms.parseTempInfo(frame)
+
+print("Results:")
+print(f"Avg Temp: {temp_info.avgTemp} C")
+print(f"Internal Temp: {temp_info.internalTemp} C")
+print(f"Highest Temp: {temp_info.highTemp} C")
+print(f"Highest Temp Thermistor ID: {temp_info.highTempID}")
+
+print("\nTesting BMS Faults data parsing")
+print("-------------------------------------------")
+
+print("Expected faults:\n")
+print("----------------------------------------------")
+print("Expected Faults:")
+print("Current Limit Status: DCL Reduced Due To Low SOC, DCL Reduced Due To Low Cell Voltage")
+print("DTC Status #1: P0A07 (Discharge Limit Enforcement Fault), P0A0E (Lowest Cell Voltage Too Low Fault)")
+print("DTC Status #2: P0AFA (Low Cell Voltage Fault), P0A06 (Charge Limit Enforcement Fault)")
+print("Precharge Status: Precharge waiting for activation (OFF)")
+
+frame = bytearray([0x00, 0x09, 0x00, 0x41, 0x80, 0x08, 0x00, 0x00])
+
+# display frame
+print("\nThis is what the CAN frame looks like")
+for i in range(0, len(frame)):
+    print(f"data[{i}]: 0x{frame[i]:02X}")
+
+# parsing the data
+print("\nParsing the data...\n")
+
+bms_faults = bms.parseFaults(frame)
+
+print("Results:")
+
+print("Current Limit Status:")
+for i in range(0, 16):
+    if bms_faults.currLimitStatus[i] == 1:
+        print(f"{bms.getCurrLimitStr(i)}: True")
+
+print("DTC Status #1:")
+for i in range(0, 16):
+    if bms_faults.dtcFlags1[i] == 1:
+        print(f"{bms.getDtcFlag1Str(i)}: True")
+
+print("DTC Status #2:")
+for i in range(0, 16):
+    if bms_faults.dtcFlags2[i] == 1:
+        print(f"{bms.getDtcFlag2Str(i)}: True")
+
+print(f"Precharge State: {bms.getPrechargeStr(bms_faults.prechargeState)}")

@@ -156,12 +156,47 @@ PYBIND11_MODULE(PyCANLibrary, m) {
         .def_readwrite("highTemp", &tempInfo::highTemp)
         .def_readwrite("highTempID", &tempInfo::highTempID);
 
-    // Bind faultInfo struct
     py::class_<faultInfo>(m, "faultInfo")
         .def(py::init<>())
-        .def_readwrite("currLimitStatus", &faultInfo::currLimitStatus)
-        .def_readwrite("dtcFlags1", &faultInfo::dtcFlags1)
-        .def_readwrite("dtcFlags2", &faultInfo::dtcFlags2)
+        .def_property("currLimitStatus",
+            [](const faultInfo &self) {
+                py::list status;
+                for (int i = 0; i < 16; ++i)
+                    status.append(self.currLimitStatus[i]);
+                return status;
+            },
+            [](faultInfo &self, py::list status) {
+                if (status.size() != 16)
+                    throw std::runtime_error("Expected list of size 16 for currLimitStatus");
+                for (int i = 0; i < 16; ++i)
+                    self.currLimitStatus[i] = status[i].cast<bool>();
+            })
+        .def_property("dtcFlags1",
+            [](const faultInfo &self) {
+                py::list status;
+                for (int i = 0; i < 16; ++i)
+                    status.append(self.dtcFlags1[i]);
+                return status;
+            },
+            [](faultInfo &self, py::list status) {
+                if (status.size() != 16)
+                    throw std::runtime_error("Expected list of size 16 for dtcFlags1");
+                for (int i = 0; i < 16; ++i)
+                    self.dtcFlags1[i] = status[i].cast<bool>();
+            })
+        .def_property("dtcFlags2",
+            [](const faultInfo &self) {
+                py::list status;
+                for (int i = 0; i < 16; ++i)
+                    status.append(self.dtcFlags2[i]);
+                return status;
+            },
+            [](faultInfo &self, py::list status) {
+                if (status.size() != 16)
+                    throw std::runtime_error("Expected list of size 16 for dtcFlags2");
+                for (int i = 0; i < 16; ++i)
+                    self.dtcFlags2[i] = status[i].cast<bool>();
+            })
         .def_readwrite("prechargeState", &faultInfo::prechargeState);
 
     // Bind BMS class
@@ -181,6 +216,4 @@ PYBIND11_MODULE(PyCANLibrary, m) {
         .def("getDtcFlag1Str", &BMS::getDtcFlag1Str, py::arg("flag1"))
         .def("getDtcFlag2Str", &BMS::getDtcFlag2Str, py::arg("flag2"))
         .def("getPrechargeStr", &BMS::getPrechargeStr, py::arg("state"));
-        
-
 }
