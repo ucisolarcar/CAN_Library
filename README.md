@@ -3,6 +3,13 @@
 - cmake
 - make
 
+### Installation
+- clone this repo
+- then run
+``` bash
+    git submodule update --init --recursive
+```
+
 ### Build
 - run this script to compile the library and the test files
 - this will generate the executable
