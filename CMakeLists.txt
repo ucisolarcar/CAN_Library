@@ -42,8 +42,7 @@ target_link_libraries(CAN_Library_Tests
 target_compile_options(CAN_Library_Tests PRIVATE -g -Wall -Wextra -pedantic)
 
 # ========== PYTHON BINDINGS ==========
-set(PYBIND11_FINDPYTHON ON)
-find_package(pybind11 CONFIG REQUIRED)
+add_subdirectory(external/pybind11)
 
 # Create the Python module
 pybind11_add_module(PyCANLibrary python_bindings/PyCANLibrary.cpp)
