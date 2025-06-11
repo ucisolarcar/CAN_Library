@@ -45,7 +45,8 @@ typedef struct faultInfo {
     bool currLimitStatus[16];
     bool dtcFlags1[16];
     bool dtcFlags2[16];
-    uint8_t prechargeState;
+    bool relayStates[16];
+    uint8_t prechargeState; // No longer using
 } faultInfo;
 
 class BMS {
@@ -92,6 +93,18 @@ class BMS {
             "Stage 8: Precharge Relay Off", "Stage 9: Precharge Complete / Success",
             "ERROR: Precharge FAULT / UNSUCCESSFUL"
         };
+
+        string relayStateArr[16] = {
+            "Discharge Relay Enabled", "Charge Relay Enabled",
+            "Charger Safety Enabled", "Malfunction Indicator Active (DTC status)",
+            "Multi-Purpose Input Signals ON", "Always On ON",
+            "Is-Ready ON", "Is-Charging ON",
+
+            "Multi-Purpose Input 2 ON", "Multi-Purpose Input 3 ON",
+            "Reserved", "Multi-Purpose Output 2 ON",
+            "Multi-Purpose Output 3 ON", "Multi-Purpose Output 4 ON",
+            "Multi-Purpose Output Enable ON", "Multi-Purpose Output 1 ON"
+        };
         
 
         int16_t combineBytes(uint8_t high, uint8_t low);
@@ -111,6 +124,7 @@ class BMS {
         string getDtcFlag1Str(int flag1);
         string getDtcFlag2Str(int flag2);
         string getPrechargeStr(int state);
+        string getRelayStateStr(int stateNum);
 };
 
 #endif

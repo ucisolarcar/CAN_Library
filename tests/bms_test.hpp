@@ -15,6 +15,7 @@ class BMS_TEST
         void packInfoTest();
         void tempInfoTest();
         void parseFaultsTest();
+        void parseRelayStatesTest();
 };
 
 void BMS_TEST::packInfoTest()
@@ -91,7 +92,7 @@ void BMS_TEST::parseFaultsTest()
     faultMessage.can_id = 0x302;
     faultMessage.can_dlc = 8;
     
-    uint8_t faultMessageData[8] = {0x00, 0x09, 0x00, 0x41, 0x80, 0x08, 0x00, 0x00};
+    uint8_t faultMessageData[8] = {0x00, 0x09, 0x00, 0x41, 0x80, 0x08, 0x80, 0x63};
     copy(begin(faultMessageData), end(faultMessageData), begin(faultMessage.data));    // just to copy data over to the array
     cout << "ID: " << hex << faultMessage.can_id << endl;
     cout << "DLC: " << dec << (int) faultMessage.can_dlc << endl;
@@ -103,7 +104,7 @@ void BMS_TEST::parseFaultsTest()
     cout << "Current Limit Status: DCL Reduced Due To Low SOC, DCL Reduced Due To Low Cell Voltage\n";
     cout << "DTC Status #1: P0A07 (Discharge Limit Enforcement Fault), P0A0E (Lowest Cell Voltage Too Low Fault)\n";
     cout << "DTC Status #2: P0AFA (Low Cell Voltage Fault), P0A06 (Charge Limit Enforcement Fault)\n";
-    cout << "Precharge Status: Precharge waiting for activation (OFF)\n";
+    cout << "Relay States: Discharge Relay Enabled, Charge Relay Enabled, Always On ON, Is-Ready ON\n";
     // Expected values: Avg Temp: 71C, Internal Temp: 80C, Highest Temp: 82C, Highest Temp Thermistor ID: 1
 
     BMS parser;
@@ -132,8 +133,14 @@ void BMS_TEST::parseFaultsTest()
             cout << parser.getDtcFlag2Str(i) << ": True" << endl;
     }
 
+    cout << "Relay States:\n";
+    for(int i = 0; i < 16; i++)
+    {
+        if(info.relayStates[i] == 1)
+            cout << parser.getRelayStateStr(i) << endl;
+    }
+
     cout << "Precharge State: " << parser.getPrechargeStr(info.prechargeState) << endl;
     cout << "parseFaultsTest() is done!\n\n";
 }
-
 #endif

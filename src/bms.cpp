@@ -76,7 +76,17 @@ faultInfo BMS::parseFaults(uint8_t data[])
             mask = 0b1;
     }
 
-    output.prechargeState = (uint8_t) data[6];
+    // setting flags for relay states:
+    mask = 0b1;
+    for (int i = 0; i < 16; i++)
+    {
+        int index = i < 8 ? 7 : 6;
+        output.relayStates[i] = (bool) ((data[index] & mask) != 0);
+
+        mask <<= 1;
+        if (i == 7)
+            mask = 0b1;
+    }
 
     return output;
 }
@@ -99,4 +109,9 @@ string BMS::getDtcFlag2Str(int flag2)
 string BMS::getPrechargeStr(int state)
 {
     return prechargeStrArr[state];
+}
+
+string BMS::getRelayStateStr(int state)
+{
+    return relayStateArr[state];
 }
